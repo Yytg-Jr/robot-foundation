@@ -1,0 +1,15 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# CMake build output
+build/
+cmake-build-*/
+
+# Archives
+*.zip
+
+# IDE
+.idea/
+.vscode/
