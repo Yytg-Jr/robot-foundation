@@ -9,6 +9,7 @@ add_library(robot_core STATIC
     src/validator.cpp
     src/MockRobot.cpp
     src/robot_factory.cpp
+    src/boundedqueue.cpp
 )
 target_include_directories(robot_core PUBLIC include)
 
@@ -19,3 +20,7 @@ enable_testing()
 add_executable(mock_robot_math test/mock_robot_math.cpp)
 target_link_libraries(mock_robot_math PRIVATE robot_core)
 add_test(NAME mock_robot_math COMMAND mock_robot_math)
+
+add_executable(boundedqueue_test test/boundedqueue_test.cpp)
+target_link_libraries(boundedqueue_test PRIVATE robot_core)
+add_test(NAME boundedqueue_test COMMAND boundedqueue_test)

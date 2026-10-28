@@ -8,5 +8,34 @@ b.owns_不是对象是否存在，而是我是否负责释放
 故障注入：
 
 
+有界队列与线程
+
+互斥锁mutex ，用lock_guard可以自动析构减少暴露可能
+用unique_lock可以使用wait的手段
+lk.wait谓语等待，等待后面的条件好了之后notify休眠的线程
+
+队列限速有两种方式：
+1.限制单位时间内的进队列数量
+#include <chrono>
+  // 成员
+  std::size_t rate_per_sec_ = 100;   // 限速值
+  double tokens_ = 0;                // 当前可用令牌
+  std::chrono::steady_clock::time_point last_refill_{};
+
+  try_push 锁内最前面补：
+
+  auto now = std::chrono::steady_clock::now();
+  auto dt = std::chrono::duration<double>(now - last_refill_).count();
+  last_refill_ = now;
+  tokens_ = std::min((double)rate_per_sec_, tokens_ + dt * rate_per_sec_); // 桶容量=rate
+  if (tokens_ < 1.0) { ++rejected_; return false; }
+  tokens_ -= 1.0;
+
+2.队列满的时候不reject,将生产线程休眠，等待消费唤醒
+
+唤醒用wait的方式是为了避免虚假唤醒，虚假唤醒会导致队列中没有元素此时pop会报错
+
+队列close后常见的实现是不再打开不提供打开的接口
+
 
 

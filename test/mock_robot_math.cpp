@@ -160,7 +160,6 @@ void test_invalid_target_rejected() {
       r.connect();                                // 重连=显式 reset
       CHECK_TRUE(r.read().ok());                  // 计数已清零，可重新跑
   }
-
 } // namespace
 
 int main() {

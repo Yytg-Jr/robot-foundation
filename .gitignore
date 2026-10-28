@@ -13,3 +13,6 @@ cmake-build-*/
 # IDE
 .idea/
 .vscode/
+
+# CTest output
+Testing/
