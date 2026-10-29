@@ -53,6 +53,16 @@ namespace robot{
         return true;
     }
 
+    bool BoundedQueue::try_pop(Command& out){
+      std::lock_guard<std::mutex> lk(mtx_);
+      if (queue_.empty()) return false;   // 空队列（无论 closed 与否）都无数据可给
+      out = std::move(queue_.front());
+      queue_.pop_front();
+      ++consumed_;
+      not_full_.notify_one();
+      return true;
+  }
+
     void BoundedQueue::close() {
         {
             std::lock_guard<std::mutex> lk(mtx_);

@@ -21,6 +21,7 @@ public:
                           std::function<TimePoint()> clock = std::chrono::steady_clock::now);
     bool try_push(const Command& c);   // 有可能会拒绝（满/超速/已关闭）
     bool wait_pop(Command& out);       // 空且未关闭时阻塞，关闭后返回 false 表示结束
+    bool try_pop(Command& out);   // 非阻塞：队列空返回 false；有数据则弹出并返回 true
     void close();
     std::size_t size() const;
 
